@@ -1,0 +1,9 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "user-endpoint/*": ["./packages/user-endpoint/src/*"],
+      "shared/*": ["./packages/shared/src/*"]
+    }
+  }
+}

@@ -1,0 +1,62 @@
+########################################################################################
+# "Setup Node" composite action for use with Volta and PNPM 8+                         #
+#--------------------------------------------------------------------------------------#
+#                                                                                      #
+# Usage in workflows steps:                                                            #
+#                                                                                      #
+#      - name: 📥 Monorepo install                                                     #
+#        uses: ./.github/actions/setup-node                                            #
+#        with:                                                                         #
+#          cwd: ${{ github.workspace }}/apps/my-app # (default = '.')                  #
+#                                                                                      #
+# Based off of:                                                                        #
+#   - https://gist.github.com/belgattitude/838b2eba30c324f1f0033a797bab2e31            #
+########################################################################################
+
+name: "Setup Node and PNPM"
+description: "Sets up node via Volta and runs pnpm install with cache enabled"
+
+inputs:
+  cwd:
+    description: "Changes node's process.cwd() if the project is not located on the root. Default to process.cwd()"
+    required: false
+    default: "."
+
+runs:
+  using: "composite"
+
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: "package.json"
+
+    - uses: pnpm/action-setup@v3
+      with:
+        run_install: false
+
+    - name: Expose pnpm config(s) through "$GITHUB_OUTPUT"
+      id: pnpm-config
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - name: Cache rotation keys
+      id: cache-rotation
+      shell: bash
+      run: |
+        echo "YEAR_MONTH=$(/bin/date -u "+%Y%m")" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v4
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-config.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-cache-${{ steps.cache-rotation.outputs.YEAR_MONTH }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-cache-${{ steps.cache-rotation.outputs.YEAR_MONTH }}-
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ inputs.cwd }}
+      run: pnpm install --frozen-lockfile --prefer-offline
+      env:
+        HUSKY: "0" # By default do not run HUSKY install

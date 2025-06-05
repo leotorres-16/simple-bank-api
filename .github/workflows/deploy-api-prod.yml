@@ -1,0 +1,53 @@
+name: Deploy API to Prod
+
+permissions:
+  id-token: write # Required for GitHub to be able to create a token for you to authenticate with AWS
+  contents: read # Permits your action to read this repo.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Run Tests
+        run: pnpm run --filter '*' test
+
+  deploy_dev:
+    name: Deploy to prod
+    environment:
+      name: prod
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
+          aws-region: ${{ vars.AWS_TARGET_REGION }}
+          role-session-name: "GitHubActions-DeployLayerStack"
+
+      - name: Build Shared
+        run: pnpm run --filter "shared" build
+
+      - name: Bundle
+        run: pnpm run --filter "*" bundle
+
+      - name: Deploy API - PIO Stack
+        run: pnpm run --filter "api-cdk" cdk deploy BankingAPIProdStack --require-approval never

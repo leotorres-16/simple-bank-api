@@ -1,0 +1,33 @@
+{
+  "name": "api-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "aws": "bin/aws.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "synth": "cdk synth",
+    "predeployDev": "pnpm run build && cdk synth",
+    "deployDev": "cdk deploy devdesk-procsyio --profile procsyio-dev && cdk deploy dev-pio-verification-table --profile procsyio-dev && cdk deploy ProcsyioDevStack --outputs-file ../shared/src/cdkout.json --profile procsyio-dev"
+  },
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "aws-cdk": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "ts-node": "*",
+    "tsconfig-paths": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "*",
+    "constructs": "*",
+    "source-map-support": "*",
+    "user-endpoint": "workspace:*",
+    "shared": "workspace:*"
+  }
+}
