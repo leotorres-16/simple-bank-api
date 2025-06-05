@@ -19,7 +19,7 @@ export const handler = async (event: APIGatewayEvent, context?: Context): Promis
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: "User Endpoint is working",
+      message: "User Endpoint is working!",
     }),
   };
 };
