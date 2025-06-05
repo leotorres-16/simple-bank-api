@@ -39,8 +39,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE}}
-          aws-region: ${{ vars.AWS_TARGET_REGION }}
+          role-to-assume: arn:aws:iam::512001593515:role/WebsiteTrustStack-GitHubActionsRole4F1BBA26-c03JXW2D5yWc
+          aws-region: ${{ secrets.AWS_TARGET_REGION }}
           role-session-name: "GitHubActions-DeployLayerStack"
 
       - name: Build Shared
