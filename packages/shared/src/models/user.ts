@@ -10,8 +10,8 @@ export interface User {
 
 export interface Address {
   line1: string;
-  line2: string;
-  line3: string;
+  line2?: string;
+  line3?: string;
   town: string;
   county: string;
   postcode: string;
