@@ -2,6 +2,7 @@ import { handler } from "./index";
 import { handleFetch } from "./handlers/handleFetch";
 import { handleCreate } from "./handlers/handleCreate";
 import { handleDelete } from "./handlers/handleDelete";
+import { handleAuthentication } from "./handlers/handleAuthentication";
 import { CreateUserEvent, DeleteUserEvent, GetUserByIdEvent } from "./mocks/events";
 import { testUser } from "./mocks/testUsers";
 
@@ -14,9 +15,24 @@ const mockedHandleCreate = handleCreate as jest.Mock;
 jest.mock("./handlers/handleDelete");
 const mockedHandleDelete = handleDelete as jest.Mock;
 
+jest.mock("./handlers/handleAuthentication");
+const mockedHandleAuthentication = handleAuthentication as jest.Mock;
+
 describe("Index tests - Routing", function () {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockedHandleAuthentication.mockResolvedValue({ urserId: "usr-123" });
+  });
+
+  it("Should return unauthorized if authentication fails", async () => {
+    const expectedBody = JSON.stringify({ message: "Access token is missing or invalid" });
+    mockedHandleAuthentication.mockResolvedValue(null);
+    const result = await handler(GetUserByIdEvent);
+    expect(result.statusCode).toEqual(401);
+    expect(result.body).toEqual(expectedBody);
+    expect(mockedHandleFetch).toHaveBeenCalledTimes(0);
+    expect(mockedHandleCreate).toHaveBeenCalledTimes(0);
+    expect(mockedHandleDelete).toHaveBeenCalledTimes(0);
   });
 
   it("Should route to handle fetch given a GET request", async () => {
@@ -29,7 +45,7 @@ describe("Index tests - Routing", function () {
     expect(result.statusCode).toEqual(200);
     expect(result.body).toEqual(expectedBody);
     expect(mockedHandleFetch).toHaveBeenCalledTimes(1);
-    expect(mockedHandleFetch).toHaveBeenCalledWith("usr-123");
+    expect(mockedHandleFetch).toHaveBeenCalledWith("usr-123", { urserId: "usr-123" });
     expect(mockedHandleCreate).toHaveBeenCalledTimes(0);
     expect(mockedHandleDelete).toHaveBeenCalledTimes(0);
   });
@@ -59,7 +75,7 @@ describe("Index tests - Routing", function () {
     expect(result.statusCode).toEqual(200);
     expect(result.body).toEqual(expectedBody);
     expect(mockedHandleDelete).toHaveBeenCalledTimes(1);
-    expect(mockedHandleDelete).toHaveBeenCalledWith("usr-123");
+    expect(mockedHandleDelete).toHaveBeenCalledWith("usr-123", { urserId: "usr-123" });
     expect(mockedHandleFetch).toHaveBeenCalledTimes(0);
     expect(mockedHandleCreate).toHaveBeenCalledTimes(0);
   });

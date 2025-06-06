@@ -2,12 +2,21 @@ import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { handleFetch } from "./handlers/handleFetch";
 import { handleCreate } from "./handlers/handleCreate";
 import { handleDelete } from "./handlers/handleDelete";
+import { handleAuthentication } from "./handlers/handleAuthentication";
 
 export const handler = async (event: APIGatewayEvent, context?: Context): Promise<APIGatewayProxyResult> => {
+  // Handle authentication
+  const session = await handleAuthentication(event.headers.Authorization || null);
+  if (!session || !session.urserId) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ message: "Access token is missing or invalid" }),
+    };
+  }
   if (event.httpMethod === "GET") {
     const userId = event.pathParameters?.userId || null;
 
-    const response = await handleFetch(userId);
+    const response = await handleFetch(userId, session);
 
     return {
       statusCode: response.statusCode,
@@ -22,7 +31,7 @@ export const handler = async (event: APIGatewayEvent, context?: Context): Promis
   } else if (event.httpMethod === "DELETE") {
     const userId = event.pathParameters?.userId || null;
 
-    const response = await handleDelete(userId);
+    const response = await handleDelete(userId, session);
 
     return {
       statusCode: response.statusCode,

@@ -1,7 +1,7 @@
-import { BasicResponse } from "shared/index";
+import { BasicResponse, Session } from "shared/index";
 import { fetchUser } from "../store/userStore";
 
-export const handleFetch = async (userId: string | null): Promise<BasicResponse> => {
+export const handleFetch = async (userId: string | null, session: Session): Promise<BasicResponse> => {
   if (userId === null || userId === undefined) {
     return {
       statusCode: 400,
@@ -13,6 +13,13 @@ export const handleFetch = async (userId: string | null): Promise<BasicResponse>
     return {
       statusCode: 400,
       body: JSON.stringify({ message: "The request didn't supply all the necessary data" }),
+    };
+  }
+
+  if (userId !== session.urserId) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify({ message: "The user is not allowed to access the transaction" }),
     };
   }
 

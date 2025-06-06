@@ -1,7 +1,7 @@
-import { BasicResponse } from "shared/index";
+import { BasicResponse, Session } from "shared/index";
 import { deleteUser, fetchUser } from "../store/userStore";
 
-export const handleDelete = async (userId: string | null): Promise<BasicResponse> => {
+export const handleDelete = async (userId: string | null, session: Session): Promise<BasicResponse> => {
   if (userId === null || userId === undefined) {
     return {
       statusCode: 400,
@@ -23,6 +23,13 @@ export const handleDelete = async (userId: string | null): Promise<BasicResponse
       return {
         statusCode: 404,
         body: JSON.stringify({ message: "User was not found" }),
+      };
+    }
+
+    if (user.id !== session.urserId) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ message: "The user is not allowed to access the transaction" }),
       };
     }
 
