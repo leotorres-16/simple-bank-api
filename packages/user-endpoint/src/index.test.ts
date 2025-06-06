@@ -1,29 +1,27 @@
 import { handler } from "./index";
 import { APIGatewayProxyEvent } from "aws-lambda";
+import { handleFetch } from "./handlers/handleFetch";
+import { GetUserByIdEvent } from "./mocks/events";
+import { testUser } from "./mocks/testUsers";
 
-describe("Customer Event Lambda", function () {
+jest.mock("./handlers/handleFetch");
+const mockedHandleFetch = handleFetch as jest.Mock;
+
+describe("Index tests - Routing", function () {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should return 400 when passed an event with empty body", async () => {
-    const expectedErrorMessage = JSON.stringify({ message: "Error 400: - Invalid Request Object" });
-    const event: APIGatewayProxyEvent = {
-      body: null,
-    } as any;
-    const result = await handler(event);
-    expect(result.statusCode).toEqual(400);
-    expect(result.body).toEqual(expectedErrorMessage);
-  });
-
-  //Delete when we no longer need to specify a processor
-  it("Should return 200 when everything is ok", async () => {
-    const expectedErrorMessage = JSON.stringify({ message: "User Endpoint is working" });
-    const event: APIGatewayProxyEvent = {
-      body: {},
-    } as any;
-    const result = await handler(event);
+  it("Should route to handle fetch given a GET request", async () => {
+    const expectedBody = JSON.stringify(testUser);
+    mockedHandleFetch.mockResolvedValue({
+      statusCode: 200,
+      body: JSON.stringify(testUser),
+    });
+    const result = await handler(GetUserByIdEvent);
     expect(result.statusCode).toEqual(200);
-    expect(result.body).toEqual(expectedErrorMessage);
+    expect(result.body).toEqual(expectedBody);
+    expect(mockedHandleFetch).toHaveBeenCalledTimes(1);
+    expect(mockedHandleFetch).toHaveBeenCalledWith("usr-123");
   });
 });
