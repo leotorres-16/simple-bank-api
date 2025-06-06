@@ -1,3 +1,5 @@
+import { Account } from "./Account";
+
 export interface User {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ export interface User {
   email: string;
   createdTimestamp: string;
   updatedTimestamp: string;
+  bankAccounts?: Account[];
 }
 
 export interface Address {

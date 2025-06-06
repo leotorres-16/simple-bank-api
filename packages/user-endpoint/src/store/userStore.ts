@@ -26,3 +26,9 @@ export const createUser = async (user: User): Promise<boolean> => {
   console.log("User created:", user);
   return true; // Return true to indicate success
 };
+
+export const deleteUser = async (userId: string): Promise<boolean> => {
+  // Simulate deleting a user from a database or external service
+  console.log("User deleted:", userId);
+  return true; // Return null to indicate the user was deleted
+};

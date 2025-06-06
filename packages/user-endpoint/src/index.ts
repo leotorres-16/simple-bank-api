@@ -1,6 +1,7 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { handleFetch } from "./handlers/handleFetch";
 import { handleCreate } from "./handlers/handleCreate";
+import { handleDelete } from "./handlers/handleDelete";
 
 export const handler = async (event: APIGatewayEvent, context?: Context): Promise<APIGatewayProxyResult> => {
   if (event.httpMethod === "GET") {
@@ -14,6 +15,15 @@ export const handler = async (event: APIGatewayEvent, context?: Context): Promis
     };
   } else if (event.httpMethod === "POST") {
     const response = await handleCreate(event.body);
+    return {
+      statusCode: response.statusCode,
+      body: response.body,
+    };
+  } else if (event.httpMethod === "DELETE") {
+    const userId = event.pathParameters?.userId || null;
+
+    const response = await handleDelete(userId);
+
     return {
       statusCode: response.statusCode,
       body: response.body,
