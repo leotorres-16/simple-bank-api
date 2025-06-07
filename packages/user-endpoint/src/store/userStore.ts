@@ -21,7 +21,7 @@ export const fetchUser = async (userId: string): Promise<User | null> => {
   return user;
 };
 
-export const createUser = async (user: User): Promise<boolean> => {
+export const createOrUpdateUser = async (user: User): Promise<boolean> => {
   // Simulate creating a user in a database or external service
   console.log("User created:", user);
   return true; // Return true to indicate success

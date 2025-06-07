@@ -1,5 +1,5 @@
 import { handleCreate } from "./handleCreate";
-import { createUser } from "../store/userStore";
+import { createOrUpdateUser } from "../store/userStore";
 import {
   CreateBodyWithAllData,
   CreateBodyWithoutAddress,
@@ -11,7 +11,7 @@ import {
 } from "../mocks/createBody";
 
 jest.mock("../store/userStore");
-const mockedCreateUser = createUser as jest.Mock;
+const mockedCreateUser = createOrUpdateUser as jest.Mock;
 
 jest.useFakeTimers().setSystemTime(new Date("2025-01-01"));
 

@@ -3,6 +3,7 @@ import { handleFetch } from "./handlers/handleFetch";
 import { handleCreate } from "./handlers/handleCreate";
 import { handleDelete } from "./handlers/handleDelete";
 import { handleAuthentication } from "./handlers/handleAuthentication";
+import { handleUpdate } from "./handlers/handleUpdate";
 
 export const handler = async (event: APIGatewayEvent, context?: Context): Promise<APIGatewayProxyResult> => {
   // Handle authentication
@@ -32,6 +33,15 @@ export const handler = async (event: APIGatewayEvent, context?: Context): Promis
     const userId = event.pathParameters?.userId || null;
 
     const response = await handleDelete(userId, session);
+
+    return {
+      statusCode: response.statusCode,
+      body: response.body,
+    };
+  } else if (event.httpMethod === "PATCH") {
+    const userId = event.pathParameters?.userId || null;
+
+    const response = await handleUpdate(event.body, userId, session);
 
     return {
       statusCode: response.statusCode,
