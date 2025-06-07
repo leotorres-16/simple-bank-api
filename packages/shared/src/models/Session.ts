@@ -1,3 +1,3 @@
 export interface Session {
-  urserId: string;
+  userId: string;
 }

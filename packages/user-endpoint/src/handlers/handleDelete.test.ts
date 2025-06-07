@@ -6,7 +6,7 @@ jest.mock("../store/userStore");
 const mockedFetchUser = fetchUser as jest.Mock;
 const mockedDeleteUser = deleteUser as jest.Mock;
 
-const session = { urserId: "usr-123" };
+const session = { userId: "usr-123" };
 
 describe("Handle Delete - Core Logic", function () {
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe("Handle Delete - Core Logic", function () {
   it("User wants to delete user details of another user", async () => {
     const expectedBody = JSON.stringify({ message: "The user is not allowed to access the transaction" });
     mockedFetchUser.mockResolvedValue(testUser);
-    const result = await handleDelete("usr-123", { urserId: "usr-456" });
+    const result = await handleDelete("usr-123", { userId: "usr-456" });
     expect(result.statusCode).toEqual(403);
     expect(result.body).toEqual(expectedBody);
     expect(mockedFetchUser).toHaveBeenCalledTimes(1);

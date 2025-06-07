@@ -3,9 +3,9 @@ import { handleFetch } from "./handlers/handleFetch";
 import { handleCreate } from "./handlers/handleCreate";
 import { handleDelete } from "./handlers/handleDelete";
 import { handleUpdate } from "./handlers/handleUpdate";
-import { CreateUserEvent, DeleteUserEvent, GetUserByIdEvent, UpdateUserEvent } from "./mocks/events";
-import { testUser } from "./mocks/testUsers";
+import { CreateBankAccountEvent, DeleteUserEvent, GetUserByIdEvent, UpdateUserEvent } from "./mocks/events";
 import { handleAuthentication } from "shared/index";
+import { testAccount } from "./mocks/testAccount";
 
 jest.mock("./handlers/handleFetch");
 const mockedHandleFetch = handleFetch as jest.Mock;
@@ -41,10 +41,10 @@ describe("Index tests - Routing", function () {
   });
 
   it("Should route to handle fetch given a GET request", async () => {
-    const expectedBody = JSON.stringify(testUser);
+    const expectedBody = JSON.stringify(testAccount);
     mockedHandleFetch.mockResolvedValue({
       statusCode: 200,
-      body: JSON.stringify(testUser),
+      body: JSON.stringify(testAccount),
     });
     const result = await handler(GetUserByIdEvent);
     expect(result.statusCode).toEqual(200);
@@ -57,26 +57,26 @@ describe("Index tests - Routing", function () {
   });
 
   it("Should route to handle create given a POST request", async () => {
-    const expectedBody = JSON.stringify(testUser);
+    const expectedBody = JSON.stringify(testAccount);
     mockedHandleCreate.mockResolvedValue({
       statusCode: 200,
-      body: JSON.stringify(testUser),
+      body: JSON.stringify(testAccount),
     });
-    const result = await handler(CreateUserEvent);
+    const result = await handler(CreateBankAccountEvent);
     expect(result.statusCode).toEqual(200);
     expect(result.body).toEqual(expectedBody);
     expect(mockedHandleCreate).toHaveBeenCalledTimes(1);
-    expect(mockedHandleCreate).toHaveBeenCalledWith(CreateUserEvent.body);
+    expect(mockedHandleCreate).toHaveBeenCalledWith(CreateBankAccountEvent.body);
     expect(mockedHandleFetch).toHaveBeenCalledTimes(0);
     expect(mockedHandleDelete).toHaveBeenCalledTimes(0);
     expect(mockedHandleUpdate).toHaveBeenCalledTimes(0);
   });
 
   it("Should route to handle delete given a POST request", async () => {
-    const expectedBody = JSON.stringify(testUser);
+    const expectedBody = JSON.stringify(testAccount);
     mockedHandleDelete.mockResolvedValue({
       statusCode: 200,
-      body: JSON.stringify(testUser),
+      body: JSON.stringify(testAccount),
     });
     const result = await handler(DeleteUserEvent);
     expect(result.statusCode).toEqual(200);
@@ -89,10 +89,10 @@ describe("Index tests - Routing", function () {
   });
 
   it("Should route to handle update given a POST request", async () => {
-    const expectedBody = JSON.stringify(testUser);
+    const expectedBody = JSON.stringify(testAccount);
     mockedHandleUpdate.mockResolvedValue({
       statusCode: 200,
-      body: JSON.stringify(testUser),
+      body: JSON.stringify(testAccount),
     });
     const result = await handler(UpdateUserEvent);
     expect(result.statusCode).toEqual(200);

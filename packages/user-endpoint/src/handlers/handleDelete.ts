@@ -26,7 +26,7 @@ export const handleDelete = async (userId: string | null, session: Session): Pro
       };
     }
 
-    if (user.id !== session.urserId) {
+    if (user.id !== session.userId) {
       return {
         statusCode: 403,
         body: JSON.stringify({ message: "The user is not allowed to access the transaction" }),

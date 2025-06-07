@@ -15,7 +15,7 @@ export const validateUserId = (userId: string | null, session: Session): BasicRe
     };
   }
 
-  if (userId !== session.userId) {
+  if (userId !== session.urserId) {
     return {
       statusCode: 403,
       body: JSON.stringify({ message: "The user is not allowed to access the transaction" }),
