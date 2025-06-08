@@ -1,6 +1,7 @@
 import { Currency } from "./Account";
 
 export interface Transaction {
+  transactionId: string;
   userId: string;
   accountNumber: string;
   amount: number;

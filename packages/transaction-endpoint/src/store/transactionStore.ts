@@ -19,3 +19,7 @@ export const createTransaction = async (transaction: Transaction): Promise<boole
   // Simulate creating a user in a database or external service
   return true;
 };
+
+export const fetchTransactionsForAccount = async (accountNumber: string): Promise<Transaction[]> => {
+  return [];
+};

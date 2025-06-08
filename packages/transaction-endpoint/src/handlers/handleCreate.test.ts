@@ -21,6 +21,7 @@ describe("Handle Create - Core Logic", function () {
       message: "Transaction has been created successfully",
     });
     const transactionToCreate = {
+      transactionId: "txn-123456-123",
       userId: "usr-123",
       accountNumber: "123456",
       amount: "100",
@@ -45,6 +46,7 @@ describe("Handle Create - Core Logic", function () {
       message: "Transaction has been created successfully",
     });
     const transactionToCreate = {
+      transactionId: "txn-123456-123",
       userId: "usr-123",
       accountNumber: "123456",
       amount: "100",
@@ -151,6 +153,7 @@ describe("Handle Create - Core Logic", function () {
       message: "An unexpected error occurred",
     });
     const transactionToCreate = {
+      transactionId: "txn-123456-123",
       userId: "usr-123",
       accountNumber: "123456",
       amount: "100",
@@ -175,6 +178,7 @@ describe("Handle Create - Core Logic", function () {
       message: "An unexpected error occurred",
     });
     const transactionToCreate = {
+      transactionId: "txn-123456-123",
       userId: "usr-123",
       accountNumber: "123456",
       amount: "100",
