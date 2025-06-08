@@ -4,6 +4,7 @@
     "paths": {
       "user-endpoint/*": ["./packages/user-endpoint/src/*"],
       "account-endpoint/*": ["./packages/account-endpoint/src/*"],
+      "transaction-endpoint/*": ["./packages/transaction-endpoint/src/*"],
       "shared/*": ["./packages/shared/src/*"]
     }
   }

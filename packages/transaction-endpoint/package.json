@@ -1,0 +1,22 @@
+{
+  "name": "transaction-endpoint",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "esbuild src/index.ts --bundle --outfile=packaged-lambda/index.js --platform=node --target=node18 --external:@aws-sdk/* --tsconfig=tsconfig.prod.json",
+    "watch": "tsc -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "ts-node": "*",
+    "typescript": "*"
+  }
+}
