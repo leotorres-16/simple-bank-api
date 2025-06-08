@@ -18,7 +18,7 @@ describe("Handle List Transactions - Core Logic", function () {
     const expectedBody = JSON.stringify(testTransactionList);
     mockedFetchTransactionsForAccount.mockResolvedValue(testTransactionList);
     const result = await handleListTransactions("123456", session);
-    expect(result.statusCode).toEqual(201);
+    expect(result.statusCode).toEqual(200);
     expect(result.body).toEqual(expectedBody);
     expect(mockedFetchTransactionsForAccount).toHaveBeenCalledTimes(1);
     expect(mockedFetchTransactionsForAccount).toHaveBeenCalledWith("123456");

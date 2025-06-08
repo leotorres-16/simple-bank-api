@@ -1,5 +1,5 @@
 export const testTransaction1 = {
-  transactionId: "txn-123456-123",
+  transactionId: "tan-123",
   userId: "usr-123",
   accountNumber: "123456",
   amount: "100",
@@ -10,7 +10,7 @@ export const testTransaction1 = {
 };
 
 export const testTransaction2 = {
-  transactionId: "txn-123456-456",
+  transactionId: "tan-456",
   userId: "usr-123",
   accountNumber: "123456",
   amount: "50",

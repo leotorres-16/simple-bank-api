@@ -1,6 +1,8 @@
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { handleAuthentication } from "shared/index";
 import { handleCreate } from "./handlers/handleCreate";
+import { handleListTransactions } from "./handlers/handleListTransactions";
+import { handleFetch } from "./handlers/handleFetch";
 
 export const handler = async (event: APIGatewayEvent, context?: Context): Promise<APIGatewayProxyResult> => {
   // Handle authentication
@@ -20,12 +22,29 @@ export const handler = async (event: APIGatewayEvent, context?: Context): Promis
       statusCode: response.statusCode,
       body: response.body,
     };
+  } else if (event.httpMethod === "GET") {
+    const accountId = event.pathParameters?.accountId || null;
+    const transactionId = event.pathParameters?.transactionId || null;
+
+    if (transactionId === null || transactionId === undefined) {
+      const response = await handleListTransactions(accountId, session);
+      return {
+        statusCode: response.statusCode,
+        body: response.body,
+      };
+    } else {
+      const response = await handleFetch(accountId, transactionId, session);
+      return {
+        statusCode: response.statusCode,
+        body: response.body,
+      };
+    }
   }
 
   return {
-    statusCode: 200,
+    statusCode: 500,
     body: JSON.stringify({
-      message: "User Endpoint is working",
+      message: "Unsupported HTTP method or missing parameters",
     }),
   };
 };

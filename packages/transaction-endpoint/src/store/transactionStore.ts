@@ -23,3 +23,7 @@ export const createTransaction = async (transaction: Transaction): Promise<boole
 export const fetchTransactionsForAccount = async (accountNumber: string): Promise<Transaction[]> => {
   return [];
 };
+
+export const fetchTransactionById = async (transactionId: string): Promise<Transaction | null> => {
+  return null;
+};

@@ -37,7 +37,7 @@ export const handleCreate = async (body: string | null, accountNumber: string | 
     }
 
     const newTransaction: Transaction = {
-      transactionId: `txn-${accountNumber}-123`,
+      transactionId: `tan-${accountNumber}123`,
       userId: session.userId,
       accountNumber,
       amount: parsedBody.amount,

@@ -27,7 +27,7 @@ export const handleListTransactions = async (accountNumber: string | null, sessi
     }
 
     return {
-      statusCode: 201,
+      statusCode: 200,
       body: JSON.stringify(transactions),
     };
   } catch (error) {
