@@ -12,7 +12,7 @@ interface ConfigureApiGatewayProps {
 
 export const configureAPIGateway = (scope: Construct, props: ConfigureApiGatewayProps): void => {
   // Import the Existing API Gateway Stack
-  const bankingAPI = new apigw.RestApi(scope, "bankingAPIG");
+  const bankingAPI = new apigw.RestApi(scope, "bankingAPI");
 
   //create root endpoint (v1)
   const version = bankingAPI.root.addResource("v1", {
