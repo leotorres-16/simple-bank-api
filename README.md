@@ -62,10 +62,10 @@ packages/
 
 Please follow the existing lambads as templates (for example packages/user-endpoint). Each folder should contain: <br />
 
-handlers: This is where the core of the API is, each handler deals with a different HTTP Request and this is where the core logic of the API is. <br />
-helpers: Validations that can be reused across different handlers. <br />
-mocks: This has test data, including mock API Gateway events, test objects and bodies the handlers would receive. <br />
-store: This is the data layer of the API - Is not developed but this is where you would integrate with a Database or another API to persist the operations. <br />
+**handlers:** This is where the core of the API is, each handler deals with a different HTTP Request and this is where the core logic of the API is. <br />
+**helpers:** Validations that can be reused across different handlers. <br />
+**mocks:** This has test data, including mock API Gateway events, test objects and bodies the handlers would receive. <br />
+**store:** This is the data layer of the API - Is not developed but this is where you would integrate with a Database or another API to persist the operations. <br />
 
 The index at the root of src serves as routing for the lambda, it will determine which of the handlers should be executed and would deal with the authentication (not implemented but mocked)
 
@@ -87,8 +87,8 @@ packages/
     cdk.json
 ```
 
-handlers: same as in the lambdas, only contains authentication which would operate the same in all three of them. <br />
-Models: Different data types that are common across the API like Account, Transaction and User. <br />
+**handlers:** same as in the lambdas, only contains authentication which would operate the same in all three of them. <br />
+**Models:** Different data types that are common across the API like Account, Transaction and User. <br />
 
 ## Stack Structure
 
@@ -107,6 +107,6 @@ packages/
     tsconfig.json
 ```
 
-construct: rehusable CDK constructs like simple lambda functions and execution roles. <br />
-helpers: Code for configuring the lambdas and API Gateway so they can be looked at separate. <br />
-APIStack.ts: Where the stack is build and all pieces come together. <br />
+**construct:** rehusable CDK constructs like simple lambda functions and execution roles. <br />
+**helpers:** Code for configuring the lambdas and API Gateway so they can be looked at separate. <br />
+**APIStack.ts:** Where the stack is build and all pieces come together. <br />
